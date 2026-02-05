@@ -86,6 +86,8 @@ export default {
         sans: ["var(--font-sans)"],
         serif: ["var(--font-serif)"],
         mono: ["var(--font-mono)"],
+        display: ['"Fredoka"', 'cursive'],
+        body: ['"Quicksand"', 'sans-serif'],
       },
       keyframes: {
         "accordion-down": {
