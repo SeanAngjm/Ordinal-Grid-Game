@@ -3,8 +3,9 @@ import { type GameQuestion, type QuestionType } from "@shared/schema";
 // Generates a descriptive string for the question
 export function getQuestionText(q: GameQuestion): string {
   if (q.type === 'linear') {
-    if (q.direction === 'left') return `第 ${q.targetIndex + 1} 个`;
-    if (q.direction === 'right') return `倒数第 ${q.totalItems - q.targetIndex} 个`;
+    const dir = q.direction === 'left' ? "左" : "右";
+    const num = q.direction === 'left' ? q.targetIndex + 1 : q.totalItems - q.targetIndex;
+    return `从${dir}数，第 ${num} 个`;
   }
   if (q.type === 'grid') {
     return `第 ${q.targetRow! + 1} 行，第 ${q.targetCol! + 1} 列`;
