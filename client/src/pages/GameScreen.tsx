@@ -7,15 +7,16 @@ import { Timer } from "@/components/Timer";
 import { speak, playSound } from "@/lib/audio";
 import { useCreateGameSession } from "@/hooks/use-games";
 import ResultScreen from "./ResultScreen";
-import { ArrowLeft, Volume2, VolumeX } from "lucide-react";
+import { ArrowLeft, Volume2, VolumeX, ChevronRight, ChevronLeft } from "lucide-react";
 import { BubblyButton } from "@/components/BubblyButton";
 
 interface GameProps {
   mode: 'single' | 'dual';
   difficulty: 'warmup' | 'advanced';
+  initialSound?: boolean;
 }
 
-export default function GameScreen({ mode, difficulty }: GameProps) {
+export default function GameScreen({ mode, difficulty, initialSound = true }: GameProps) {
   const [_, setLocation] = useLocation();
   const [round, setRound] = useState(0);
   const [timeLeft, setTimeLeft] = useState(10);
@@ -23,7 +24,7 @@ export default function GameScreen({ mode, difficulty }: GameProps) {
   const [p1Score, setP1Score] = useState(0);
   const [p2Score, setP2Score] = useState(0);
   const [gameState, setGameState] = useState<'ready' | 'playing' | 'round-end' | 'finished'>('ready');
-  const [soundEnabled, setSoundEnabled] = useState(true);
+  const [soundEnabled, setSoundEnabled] = useState(initialSound);
   
   // Track who answered in current round
   const [p1Answered, setP1Answered] = useState(false);
@@ -137,32 +138,72 @@ export default function GameScreen({ mode, difficulty }: GameProps) {
   return (
     <div className="h-screen w-full flex flex-col bg-slate-50 overflow-hidden touch-none">
       
-      {/* Header / Controls Area */}
-      <div className="flex-none h-16 md:h-20 bg-white shadow-sm px-4 flex items-center justify-between z-10 border-b border-slate-100">
-        <button onClick={() => setLocation("/")} className="p-2 hover:bg-slate-100 rounded-xl transition-colors">
-          <ArrowLeft className="w-6 h-6 text-slate-400" />
+      {/* Header / Controls Area - Now 30% height */}
+      <div className="flex-none h-[30%] bg-white shadow-sm px-4 flex flex-col items-center justify-center z-10 border-b border-slate-100 relative">
+        <button onClick={() => setLocation("/")} className="absolute left-4 top-1/2 -translate-y-1/2 p-2 hover:bg-slate-100 rounded-xl transition-colors">
+          <ArrowLeft className="w-8 h-8 text-slate-400" />
         </button>
         
-        <div className="flex flex-col items-center">
-          <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Question {round + 1}/{questions.length}</span>
-          <div
-            className="
-              text-xl md:text-3xl 
-              font-display font-extrabold 
-              text-yellow-300 
-              drop-shadow-[0_0_6px_rgba(253,224,71,0.8)]
-            "
-          >
-            {questionText}
+        <div className="flex flex-col items-center gap-4 max-w-2xl w-full text-center">
+          <span className="text-sm font-bold text-slate-400 uppercase tracking-widest">Question {round + 1}/{questions.length}</span>
+          
+          <div className="relative flex items-center justify-center w-full px-12">
+            {/* Animated Arrow Indicators */}
+            <div className="absolute left-0 flex gap-1">
+              {[0, 1, 2].map((i) => (
+                <motion.div
+                  key={i}
+                  animate={{ 
+                    x: [0, 5, 0],
+                    opacity: [0.3, 1, 0.3]
+                  }}
+                  transition={{ 
+                    duration: 1.5,
+                    repeat: Infinity,
+                    delay: i * 0.2
+                  }}
+                >
+                  <ChevronRight className="w-8 h-8 text-orange-400" />
+                </motion.div>
+              ))}
+            </div>
+
+            <motion.div
+              key={round}
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              className="text-4xl md:text-6xl font-display font-extrabold text-slate-800 tracking-tight"
+            >
+              {questionText}
+            </motion.div>
+
+            <div className="absolute right-0 flex gap-1">
+              {[0, 1, 2].map((i) => (
+                <motion.div
+                  key={i}
+                  animate={{ 
+                    x: [0, -5, 0],
+                    opacity: [0.3, 1, 0.3]
+                  }}
+                  transition={{ 
+                    duration: 1.5,
+                    repeat: Infinity,
+                    delay: i * 0.2
+                  }}
+                >
+                  <ChevronLeft className="w-8 h-8 text-orange-400" />
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
 
-        <button onClick={() => setSoundEnabled(!soundEnabled)} className="p-2 hover:bg-slate-100 rounded-xl transition-colors">
-          {soundEnabled ? <Volume2 className="w-6 h-6 text-violet-500" /> : <VolumeX className="w-6 h-6 text-slate-300" />}
+        <button onClick={() => setSoundEnabled(!soundEnabled)} className="absolute right-4 top-1/2 -translate-y-1/2 p-2 hover:bg-slate-100 rounded-xl transition-colors">
+          {soundEnabled ? <Volume2 className="w-8 h-8 text-violet-500" /> : <VolumeX className="w-8 h-8 text-slate-300" />}
         </button>
       </div>
 
-      {/* Game Area */}
+      {/* Game Area - 70% height */}
       <div className="flex-1 relative flex flex-col md:flex-row overflow-hidden">
         
         {/* Player 1 Area */}

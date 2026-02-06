@@ -13,9 +13,10 @@ function Router() {
   const [gameSettings, setGameSettings] = useState<{
     mode: 'single' | 'dual';
     difficulty: 'warmup' | 'advanced';
+    sound: boolean;
   } | null>(null);
 
-  const handleStart = (settings: { mode: 'single' | 'dual'; difficulty: 'warmup' | 'advanced' }) => {
+  const handleStart = (settings: { mode: 'single' | 'dual'; difficulty: 'warmup' | 'advanced'; sound: boolean }) => {
     setGameSettings(settings);
     setLocation("/game");
   };
@@ -27,7 +28,7 @@ function Router() {
       </Route>
       <Route path="/game">
         {gameSettings ? (
-          <GameScreen mode={gameSettings.mode} difficulty={gameSettings.difficulty} />
+          <GameScreen mode={gameSettings.mode} difficulty={gameSettings.difficulty} initialSound={gameSettings.sound} />
         ) : (
           <StartScreen onStart={handleStart} />
         )}

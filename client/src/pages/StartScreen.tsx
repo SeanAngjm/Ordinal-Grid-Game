@@ -1,20 +1,21 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { BubblyButton } from "@/components/BubblyButton";
-import { User, Users, Zap, Grid, Play } from "lucide-react";
+import { User, Users, Zap, Grid, Play, Volume2, VolumeX } from "lucide-react";
 import { playSound } from "@/lib/audio";
 
 interface StartScreenProps {
-  onStart: (settings: { mode: 'single' | 'dual'; difficulty: 'warmup' | 'advanced' }) => void;
+  onStart: (settings: { mode: 'single' | 'dual'; difficulty: 'warmup' | 'advanced'; sound: boolean }) => void;
 }
 
 export default function StartScreen({ onStart }: StartScreenProps) {
   const [mode, setMode] = useState<'single' | 'dual'>('single');
   const [difficulty, setDifficulty] = useState<'warmup' | 'advanced'>('warmup');
+  const [sound, setSound] = useState(true);
 
   const handleStart = () => {
-    playSound('start');
-    onStart({ mode, difficulty });
+    if (sound) playSound('start');
+    onStart({ mode, difficulty, sound });
   };
 
   return (
@@ -70,7 +71,7 @@ export default function StartScreen({ onStart }: StartScreenProps) {
             <label className="text-sm font-bold text-slate-400 uppercase tracking-wider ml-1">Select Mode</label>
             <div className="grid grid-cols-2 gap-4">
               <button
-                onClick={() => { playSound('pop'); setDifficulty('warmup'); }}
+                onClick={() => { if (sound) playSound('pop'); setDifficulty('warmup'); }}
                 className={`p-4 rounded-2xl border-4 transition-all duration-200 flex flex-col items-center gap-2 ${
                   difficulty === 'warmup' 
                     ? 'border-orange-400 bg-orange-50 text-orange-500' 
@@ -81,7 +82,7 @@ export default function StartScreen({ onStart }: StartScreenProps) {
                 <span className="font-bold">Linear</span>
               </button>
               <button
-                onClick={() => { playSound('pop'); setDifficulty('advanced'); }}
+                onClick={() => { if (sound) playSound('pop'); setDifficulty('advanced'); }}
                 className={`p-4 rounded-2xl border-4 transition-all duration-200 flex flex-col items-center gap-2 ${
                   difficulty === 'advanced' 
                     ? 'border-pink-400 bg-pink-50 text-pink-500' 
@@ -92,6 +93,25 @@ export default function StartScreen({ onStart }: StartScreenProps) {
                 <span className="font-bold">Grid</span>
               </button>
             </div>
+          </div>
+
+          {/* Sound Toggle */}
+          <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border-4 border-slate-100">
+            <div className="flex items-center gap-3">
+              <div className={`p-2 rounded-xl ${sound ? 'bg-violet-100 text-violet-500' : 'bg-slate-200 text-slate-400'}`}>
+                {sound ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5" />}
+              </div>
+              <span className="font-bold text-slate-600">Sound Effects</span>
+            </div>
+            <button
+              onClick={() => { setSound(!sound); if (!sound) playSound('pop'); }}
+              className={`w-14 h-8 rounded-full transition-colors relative ${sound ? 'bg-violet-500' : 'bg-slate-300'}`}
+            >
+              <motion.div
+                animate={{ x: sound ? 24 : 4 }}
+                className="absolute top-1 left-0 w-6 h-6 bg-white rounded-full shadow-sm"
+              />
+            </button>
           </div>
 
           <BubblyButton 
