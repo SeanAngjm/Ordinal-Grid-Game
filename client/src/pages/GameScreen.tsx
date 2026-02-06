@@ -145,7 +145,14 @@ export default function GameScreen({ mode, difficulty }: GameProps) {
         
         <div className="flex flex-col items-center">
           <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Question {round + 1}/{questions.length}</span>
-          <div className="text-lg md:text-2xl font-display font-bold text-slate-800">
+          <div
+            className="
+              text-xl md:text-3xl 
+              font-display font-extrabold 
+              text-yellow-300 
+              drop-shadow-[0_0_6px_rgba(253,224,71,0.8)]
+            "
+          >
             {questionText}
           </div>
         </div>
