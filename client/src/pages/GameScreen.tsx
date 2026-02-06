@@ -35,17 +35,7 @@ export default function GameScreen({ mode, difficulty }: GameProps) {
   // Start round logic
   useEffect(() => {
     if (gameState === 'ready' || gameState === 'round-end') {
-      if (round >= questions.length) {
-        setGameState('finished');
-        // Save to backend
-        createSession.mutate({
-          mode,
-          difficulty,
-          player1Score: p1Score,
-          player2Score: mode === 'dual' ? p2Score : null,
-        });
-        return;
-      }
+
 
       // Prepare next round
       setP1Answered(false);
@@ -107,8 +97,14 @@ export default function GameScreen({ mode, difficulty }: GameProps) {
     if (timerRef.current) clearInterval(timerRef.current);
     setGameState('round-end');
     setTimeout(() => {
-      setRound(r => r + 1);
-    }, 1500); // Pause to show result feedback
+      setRound(r => {
+        if (r + 1 >= questions.length) {
+          setGameState('finished');
+          return r; // do NOT go to invalid round
+        }
+        return r + 1;
+      });
+    }, 1500);
   };
 
   const handleP1Answer = (correct: boolean) => {
