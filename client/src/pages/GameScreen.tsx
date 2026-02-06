@@ -54,15 +54,26 @@ export default function GameScreen({ mode, difficulty }: GameProps) {
       
       // Delay start slightly for transitions
       const startTimeout = setTimeout(() => {
-        setGameState('playing');
-        const q = questions[round];
-        if (soundEnabled) speak(getSpokenText(q));
+        setGameState('playing'); 
       }, 1000);
 
       return () => clearTimeout(startTimeout);
     }
   }, [round, gameState]);
-
+// sound logic
+  useEffect(() => {
+    if (gameState !== 'playing') return;
+    if (!soundEnabled) return;
+  
+    const q = questions[round];
+    if (!q) return;
+  
+    // 🔴 CRITICAL: stop any previous speech
+    speechSynthesis.cancel();
+  
+    speak(getSpokenText(q));
+  }, [round, gameState, soundEnabled]);
+  
   // Timer logic
   useEffect(() => {
     if (gameState === 'playing') {
@@ -92,6 +103,7 @@ export default function GameScreen({ mode, difficulty }: GameProps) {
   }, [p1Answered, p2Answered, mode, gameState]);
 
   const handleRoundEnd = () => {
+    speechSynthesis.cancel();
     if (timerRef.current) clearInterval(timerRef.current);
     setGameState('round-end');
     setTimeout(() => {
