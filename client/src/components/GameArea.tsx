@@ -38,7 +38,7 @@ export function GameArea({ question, isActive, onAnswer, playerSide }: GameAreaP
 
   const getGridStyle = () => {
     if (question.type === 'linear') {
-      return "flex flex-row justify-center items-center gap-2 sm:gap-4 flex-wrap content-center h-full";
+       return "flex flex-row justify-center items-center gap-2 sm:gap-4 flex-wrap content-center h-full";
     }
     return `grid grid-cols-${question.cols} gap-2 sm:gap-4 justify-center content-center h-full max-w-[80%] mx-auto`;
   };
