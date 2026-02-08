@@ -136,7 +136,7 @@ export default function GameScreen({ mode, difficulty, initialSound = true }: Ga
   const isOddRound = (round + 1) % 2 !== 0;
 
   return (
-    <div className="h-screen w-full flex flex-col bg-slate-50 overflow-auto touch-auto scrollbar-thin">
+    <div className="h-screen w-full flex flex-col bg-slate-50 overflow-hidden touch-none">
       
       {/* Header / Controls Area - Now 30% height */}
       <div className="flex-none h-[30%] bg-white shadow-sm px-4 flex flex-col items-center justify-center z-10 border-b border-slate-100 relative">
@@ -200,10 +200,10 @@ export default function GameScreen({ mode, difficulty, initialSound = true }: Ga
       </div>
 
       {/* Game Area - 70% height */}
-      <div className="flex-1 relative flex flex-col md:flex-row overflow-hidden">
+      <div className="flex-1 relative flex flex-row overflow-hidden">
         
         {/* Player 1 Area */}
-        <div className={`flex-1 relative p-2 md:p-6 border-b md:border-b-0 md:border-r border-slate-200 transition-opacity duration-300 ${p1Answered ? 'opacity-50 grayscale-[0.5]' : ''}`}>
+        <div className={`flex-1 relative border-r border-slate-200 transition-opacity duration-300 ${p1Answered ? 'opacity-50 grayscale-[0.5]' : ''}`}>
           {/* Label for Dual Mode */}
           {mode === 'dual' && (
             <div className="absolute top-4 left-4 z-10 bg-orange-100 text-orange-600 px-3 py-1 rounded-lg font-bold text-sm shadow-sm border border-orange-200">
@@ -217,25 +217,11 @@ export default function GameScreen({ mode, difficulty, initialSound = true }: Ga
             onAnswer={handleP1Answer}
             playerSide={mode === 'single' ? 'single' : 'left'}
           />
-
-          {/* Correct/Wrong Overlay Feedback */}
-          <AnimatePresence>
-            {p1Answered && (
-               <motion.div 
-                 initial={{ opacity: 0, scale: 0.5 }}
-                 animate={{ opacity: 1, scale: 1 }}
-                 exit={{ opacity: 0 }}
-                 className="absolute inset-0 flex items-center justify-center pointer-events-none z-20"
-               >
-                 {/* This could be an icon or text indicating wait */}
-               </motion.div>
-            )}
-          </AnimatePresence>
         </div>
 
         {/* Player 2 Area (Only visible in Dual Mode) */}
         {mode === 'dual' && (
-          <div className={`flex-1 relative p-2 md:p-6 transition-opacity duration-300 ${p2Answered ? 'opacity-50 grayscale-[0.5]' : ''}`}>
+          <div className={`flex-1 relative transition-opacity duration-300 ${p2Answered ? 'opacity-50 grayscale-[0.5]' : ''}`}>
             <div className="absolute top-4 right-4 z-10 bg-blue-100 text-blue-600 px-3 py-1 rounded-lg font-bold text-sm shadow-sm border border-blue-200">
               Player 2
             </div>
@@ -251,8 +237,8 @@ export default function GameScreen({ mode, difficulty, initialSound = true }: Ga
       </div>
 
       {/* Bottom Status Bar */}
-      <div className={`flex-none bg-white p-4 pb-6 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] transition-colors duration-500 ${isOddRound ? 'border-t-4 border-orange-200' : 'border-t-4 border-blue-200'}`}>
-        <div className="max-w-4xl mx-auto space-y-4">
+      <div className={`flex-none bg-white p-2 pb-4 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] transition-colors duration-500 ${isOddRound ? 'border-t-4 border-orange-200' : 'border-t-4 border-blue-200'}`}>
+        <div className="max-w-4xl mx-auto space-y-2">
           
           {/* Timer */}
           <Timer current={timeLeft} total={10} />
@@ -260,14 +246,14 @@ export default function GameScreen({ mode, difficulty, initialSound = true }: Ga
           {/* Scores */}
           <div className="flex justify-between items-end px-4">
             <div className="text-center">
-              <div className="text-xs font-bold text-orange-300 uppercase">P1 Score</div>
-              <div className="text-3xl font-display font-bold text-orange-500 tabular-nums leading-none">{p1Score}</div>
+              <div className="text-[10px] font-bold text-orange-300 uppercase">P1 Score</div>
+              <div className="text-2xl font-display font-bold text-orange-500 tabular-nums leading-none">{p1Score}</div>
             </div>
 
             {mode === 'dual' && (
               <div className="text-center">
-                <div className="text-xs font-bold text-blue-300 uppercase">P2 Score</div>
-                <div className="text-3xl font-display font-bold text-blue-500 tabular-nums leading-none">{p2Score}</div>
+                <div className="text-[10px] font-bold text-blue-300 uppercase">P2 Score</div>
+                <div className="text-2xl font-display font-bold text-blue-500 tabular-nums leading-none">{p2Score}</div>
               </div>
             )}
           </div>
