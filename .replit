@@ -37,3 +37,16 @@ author = "agent"
 task = "shell.exec"
 args = "npm run dev"
 waitForPort = 5000
+
+[[workflows.workflow]]
+name = "git"
+mode = "sequential"
+author = 53738006
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "git rebase --abort"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "git fetch origin git reset --hard origin/main"
