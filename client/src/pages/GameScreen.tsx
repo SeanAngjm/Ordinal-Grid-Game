@@ -136,7 +136,7 @@ export default function GameScreen({ mode, difficulty, initialSound = true }: Ga
   const isOddRound = (round + 1) % 2 !== 0;
 
   return (
-    <div className="h-screen w-full flex flex-col bg-slate-50 overflow-hidden touch-none">
+    <div className="h-screen w-full flex flex-col bg-slate-50 overflow-auto touch-auto scrollbar-thin">
       
       {/* Header / Controls Area - Now 30% height */}
       <div className="flex-none h-[30%] bg-white shadow-sm px-4 flex flex-col items-center justify-center z-10 border-b border-slate-100 relative">
@@ -144,12 +144,12 @@ export default function GameScreen({ mode, difficulty, initialSound = true }: Ga
           <ArrowLeft className="w-8 h-8 text-slate-400" />
         </button>
         
-        <div className="flex flex-col items-center gap-4 max-w-2xl w-full text-center">
+        <div className="flex flex-col items-center gap-4 max-w-2xl w-full text-center px-4">
           <span className="text-sm font-bold text-slate-400 uppercase tracking-widest">Question {round + 1}/{questions.length}</span>
           
-          <div className="relative flex items-center justify-center w-full px-12">
+          <div className="relative flex items-center justify-center w-full min-h-[4rem] md:min-h-[6rem]">
             {/* Animated Arrow Indicators */}
-            <div className="absolute left-0 flex gap-1">
+            <div className="absolute left-0 hidden md:flex gap-1">
               {[0, 1, 2].map((i) => (
                 <motion.div
                   key={i}
@@ -172,12 +172,12 @@ export default function GameScreen({ mode, difficulty, initialSound = true }: Ga
               key={round}
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              className="text-4xl md:text-6xl font-display font-extrabold text-slate-800 tracking-tight"
+              className="text-3xl sm:text-4xl md:text-6xl font-display font-extrabold text-slate-800 tracking-tight leading-tight"
             >
               {questionText}
             </motion.div>
 
-            <div className="absolute right-0 flex gap-1">
+            <div className="absolute right-0 hidden md:flex gap-1">
               {[0, 1, 2].map((i) => (
                 <motion.div
                   key={i}
@@ -197,10 +197,6 @@ export default function GameScreen({ mode, difficulty, initialSound = true }: Ga
             </div>
           </div>
         </div>
-
-        <button onClick={() => setSoundEnabled(!soundEnabled)} className="absolute right-4 top-1/2 -translate-y-1/2 p-2 hover:bg-slate-100 rounded-xl transition-colors">
-          {soundEnabled ? <Volume2 className="w-8 h-8 text-violet-500" /> : <VolumeX className="w-8 h-8 text-slate-300" />}
-        </button>
       </div>
 
       {/* Game Area - 70% height */}
