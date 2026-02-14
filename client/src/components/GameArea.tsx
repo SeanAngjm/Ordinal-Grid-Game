@@ -130,7 +130,9 @@ export function GameArea({ question, isActive, onAnswer, playerSide }: GameAreaP
               whileHover={isActive && answeredIndex === null ? { scale: 1.1, rotate: 5 } : {}}
               whileTap={isActive && answeredIndex === null ? { scale: 0.9 } : {}}
               className={cn(
-                "aspect-square rounded-full border-4 flex items-center justify-center text-3xl sm:text-4xl md:text-5xl shadow-lg relative cursor-pointer outline-none select-none touch-manipulation",
+                "aspect-square h-[60%] sm:h-[70%] md:h-[80%] shrink-0 rounded-full border-4 flex items-center justify-center text-3xl sm:text-4xl md:text-5xl shadow-lg relative cursor-pointer outline-none select-none touch-manipulation",
+                stateClass,
+                !isActive && "opacity-50 cursor-not-allowed grayscale"
               )}
             >
               {getEmoji(i)}
