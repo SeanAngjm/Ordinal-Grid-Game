@@ -29,10 +29,6 @@ export default function StartScreen({ onStart }: StartScreenProps) {
         <div className="absolute top-0 left-0 w-32 h-32 bg-yellow-200 rounded-full -translate-x-1/2 -translate-y-1/2 opacity-50 blur-xl" />
         <div className="absolute bottom-0 right-0 w-40 h-40 bg-purple-200 rounded-full translate-x-1/3 translate-y-1/3 opacity-50 blur-xl" />
 
-        <div className="flex justify-end p-2 relative z-20">
-          <div className="text-xs text-slate-300">v1.1</div>
-        </div>
-
         <div className="text-center mb-10 relative z-10">
           <h1 className="text-5xl md:text-6xl font-display font-bold text-slate-800 mb-2 tracking-tight">
             Math<span className="text-violet-500">Fun</span>
@@ -97,6 +93,25 @@ export default function StartScreen({ onStart }: StartScreenProps) {
                 <span className="font-bold">Grid</span>
               </button>
             </div>
+          </div>
+
+          {/* Sound Toggle */}
+          <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border-4 border-slate-100">
+            <div className="flex items-center gap-3">
+              <div className={`p-2 rounded-xl ${sound ? 'bg-violet-100 text-violet-500' : 'bg-slate-200 text-slate-400'}`}>
+                {sound ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5" />}
+              </div>
+              <span className="font-bold text-slate-600">Sound Effects</span>
+            </div>
+            <button
+              onClick={() => { setSound(!sound); if (!sound) playSound('pop'); }}
+              className={`w-14 h-8 rounded-full transition-colors relative ${sound ? 'bg-violet-500' : 'bg-slate-300'}`}
+            >
+              <motion.div
+                animate={{ x: sound ? 24 : 4 }}
+                className="absolute top-1 left-0 w-6 h-6 bg-white rounded-full shadow-sm"
+              />
+            </button>
           </div>
 
           <BubblyButton 
