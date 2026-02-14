@@ -33,7 +33,7 @@ export function generateQuestions(count: number, difficulty: 'warmup' | 'advance
     const id = Math.random().toString(36).substr(2, 9);
     
     if (type === 'linear') {
-      const totalItems = 5 + Math.floor(Math.random() * 3); // 5 to 7 items
+      const totalItems = 5 + Math.floor(Math.random() * 2); // 5 to 6 items
       const targetIndex = Math.floor(Math.random() * totalItems);
       const direction = Math.random() > 0.5 ? 'left' : 'right';
       
