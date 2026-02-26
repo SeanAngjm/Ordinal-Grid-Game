@@ -64,7 +64,9 @@ export default function ResultScreen({ p1Score, p2Score, mode, onRestart }: Resu
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-4">
+    <div className="min-h-screen bg-slate-50 
+                flex items-start justify-center 
+                p-4 overflow-y-auto touch-auto">
       <motion.div 
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
