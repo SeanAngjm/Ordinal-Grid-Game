@@ -19,7 +19,8 @@ export default function StartScreen({ onStart }: StartScreenProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center p-4">
+    <div className="h-screen overflow-y-auto bg-gradient-to-br from-violet-500 to-fuchsia-500
+                flex items-start justify-center p-4">
       <motion.div 
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
