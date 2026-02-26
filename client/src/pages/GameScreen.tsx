@@ -204,10 +204,10 @@ export default function GameScreen({ mode, difficulty, initialSound = true }: Ga
       </div>
 
       {/* Game Area - 70% height */}
-      <div className="flex-1 relative flex flex-col md:flex-row overflow-hidden">
+      <div className="flex-1 relative flex flex-row overflow-hidden">
         
         {/* Player 1 Area */}
-        <div className={`flex-1 relative p-2 md:p-6 border-b md:border-b-0 md:border-r border-slate-200 transition-opacity duration-300 ${p1Answered ? 'opacity-50 grayscale-[0.5]' : ''}`}>
+        <div className={`flex-1 relative p-2 md:p-6 border-r border-slate-200 transition-opacity duration-300 ${p1Answered ? 'opacity-50 grayscale-[0.5]' : ''}`}>
           {/* Label for Dual Mode */}
           {mode === 'dual' && (
             <div className="absolute top-4 left-4 z-10 bg-orange-100 text-orange-600 px-3 py-1 rounded-lg font-bold text-sm shadow-sm border border-orange-200">

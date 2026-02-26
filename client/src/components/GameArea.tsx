@@ -38,9 +38,9 @@ export function GameArea({ question, isActive, onAnswer, playerSide }: GameAreaP
 
   const getGridStyle = () => {
     if (question.type === 'linear') {
-      return "flex flex-row justify-center items-center gap-2 sm:gap-4 flex-wrap content-center h-full";
+      return "flex flex-row justify-center items-center gap-2 sm:gap-4 flex-nowrap content-center h-full overflow-hidden";
     }
-    return `grid grid-cols-${question.cols} gap-2 sm:gap-4 justify-center content-center h-full max-w-[80%] mx-auto`;
+    return `grid gap-2 sm:gap-4 justify-center content-center h-full max-w-[80%] mx-auto`;
   };
 
   const animalEmojis = ["🦁", "🐯", "🐼", "🐨", "🐸", "🐷", "🦊", "🐶", "🐱"];
@@ -131,6 +131,8 @@ export function GameArea({ question, isActive, onAnswer, playerSide }: GameAreaP
               whileTap={isActive && answeredIndex === null ? { scale: 0.9 } : {}}
               className={cn(
                 "aspect-square rounded-full border-4 flex items-center justify-center text-3xl sm:text-4xl md:text-5xl shadow-lg relative cursor-pointer outline-none select-none touch-manipulation",
+                stateClass,
+                !isActive && "opacity-50 cursor-not-allowed grayscale"
               )}
             >
               {getEmoji(i)}
